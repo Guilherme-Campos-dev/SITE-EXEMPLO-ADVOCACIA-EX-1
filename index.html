@@ -1,0 +1,2242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Advocacia — Direito & Previdência</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --black: #090909;
+      --black-2: #111111;
+      --black-3: #171717;
+      --white: #f5f2ec;
+      --cream: #e9dfcf;
+      --gold: #d29a43;
+      --gold-light: #e6b86c;
+      --gray: #aaa7a0;
+      --line: rgba(255,255,255,.14);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: "Inter", sans-serif;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    /* =========================================
+       PRELOADER
+    ========================================= */
+
+    .preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #090909;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .preloader-inner {
+      text-align: center;
+      width: min(500px, 80%);
+    }
+
+    .preloader-logo {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(42px, 8vw, 85px);
+      letter-spacing: .08em;
+      color: var(--gold-light);
+      overflow: hidden;
+    }
+
+    .preloader-logo span {
+      display: inline-block;
+      transform: translateY(110%);
+    }
+
+    .preloader-line {
+      width: 100%;
+      height: 1px;
+      background: rgba(255,255,255,.18);
+      margin-top: 25px;
+      overflow: hidden;
+    }
+
+    .preloader-line span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: var(--gold);
+    }
+
+    .preloader-number {
+      margin-top: 12px;
+      font-size: 10px;
+      letter-spacing: .2em;
+      color: #777;
+    }
+
+    /* =========================================
+       NAV
+    ========================================= */
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 72px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(7,7,7,.82);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+
+    .nav-inner {
+      width: min(100% - 70px, 1120px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 25px;
+      line-height: .7;
+      color: var(--gold);
+      text-align: center;
+    }
+
+    .brand small {
+      display: block;
+      font-family: "Inter", sans-serif;
+      font-size: 5px;
+      letter-spacing: .25em;
+      margin-top: 8px;
+      color: white;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      margin-left: 40px;
+    }
+
+    .nav-links a {
+      position: relative;
+      font-size: 10px;
+      color: #ddd;
+      padding: 26px 0;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 18px;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width .3s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      background: var(--gold);
+      color: #111;
+      padding: 11px 20px;
+      font-size: 9px;
+      font-weight: 600;
+      transition: .3s ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .socials {
+      display: flex;
+      gap: 7px;
+      margin-left: 12px;
+    }
+
+    .social {
+      width: 19px;
+      height: 19px;
+      border: 1px solid rgba(255,255,255,.35);
+      display: grid;
+      place-items: center;
+      font-size: 8px;
+    }
+
+    /* =========================================
+       HERO
+    ========================================= */
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0,0,0,.98) 0%,
+          rgba(0,0,0,.92) 27%,
+          rgba(0,0,0,.45) 58%,
+          rgba(0,0,0,.25) 100%
+        ),
+        url("https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1800&q=85")
+        center/cover no-repeat;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(
+          circle at 70% 45%,
+          transparent 0%,
+          rgba(0,0,0,.18) 45%,
+          rgba(0,0,0,.65) 100%
+        );
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: min(100% - 70px, 1120px);
+      margin: 80px auto 0;
+    }
+
+    .hero-copy {
+      width: min(470px, 100%);
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 500;
+      font-size: clamp(42px, 5vw, 66px);
+      line-height: .93;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 span {
+      color: var(--gold-light);
+    }
+
+    .hero p {
+      max-width: 420px;
+      color: #d1d1d1;
+      font-size: 11px;
+      line-height: 1.75;
+      margin-bottom: 24px;
+    }
+
+    .main-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 240px;
+      padding: 14px 24px;
+      background: linear-gradient(90deg, #bd8031, #e2ad5f);
+      color: #111;
+      font-size: 10px;
+      font-weight: 600;
+      transition: .35s ease;
+    }
+
+    .main-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 35px rgba(211,155,67,.2);
+    }
+
+    .hero-note {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 14px;
+      color: #aaa;
+      font-size: 8px;
+    }
+
+    .hero-note::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      right: 35px;
+      bottom: 35px;
+      z-index: 4;
+      writing-mode: vertical-rl;
+      font-size: 8px;
+      letter-spacing: .25em;
+      color: #aaa;
+    }
+
+    /* =========================================
+       ABOUT CARD
+    ========================================= */
+
+    .about-area {
+      position: relative;
+      z-index: 5;
+      margin-top: -80px;
+      padding-bottom: 110px;
+    }
+
+    .about-card {
+      width: min(100% - 70px, 920px);
+      min-height: 300px;
+      margin: auto;
+      border-radius: 18px;
+      background: linear-gradient(110deg, #b9b8b4, #fafafa);
+      color: #252525;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 55px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 35px 80px rgba(0,0,0,.45);
+    }
+
+    .about-card::before {
+      content: "";
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      right: -150px;
+      top: -120px;
+      background: rgba(255,255,255,.25);
+      filter: blur(40px);
+    }
+
+    .about-text {
+      position: relative;
+      z-index: 2;
+      padding-right: 35px;
+    }
+
+    .about-text h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 32px;
+      line-height: 1;
+      margin-bottom: 22px;
+      font-weight: 500;
+    }
+
+    .about-text h2 span {
+      color: #b27729;
+    }
+
+    .about-text p {
+      font-size: 10px;
+      line-height: 1.8;
+      color: #454545;
+    }
+
+    .about-visual {
+      position: relative;
+      height: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .about-visual::before {
+      content: "§";
+      position: absolute;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 240px;
+      color: rgba(191,137,58,.15);
+      transform: rotate(-15deg);
+    }
+
+    .scales {
+      position: relative;
+      z-index: 2;
+      font-size: 135px;
+      color: #a77a3c;
+      text-shadow: 0 15px 30px rgba(0,0,0,.15);
+    }
+
+    /* =========================================
+       SERVICES
+    ========================================= */
+
+    .services {
+      position: relative;
+      padding: 0 0 120px;
+      background:
+        radial-gradient(
+          ellipse at center top,
+          rgba(255,255,255,.04),
+          transparent 55%
+        );
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 34px;
+      font-weight: 500;
+    }
+
+    .section-title h2 span {
+      color: var(--gold);
+    }
+
+    .section-title p {
+      margin-top: 8px;
+      color: #aaa;
+      font-size: 9px;
+    }
+
+    .services-grid {
+      width: min(100% - 70px, 920px);
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+    }
+
+    .service-card {
+      min-height: 150px;
+      padding: 20px 14px;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 12px;
+      text-align: center;
+      transition: .4s ease;
+      background: rgba(10,10,10,.4);
+    }
+
+    .service-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-8px);
+      background: rgba(255,255,255,.035);
+    }
+
+    .service-card .icon {
+      font-size: 20px;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .service-card h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 18px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .service-card p {
+      color: #999;
+      font-size: 8px;
+      line-height: 1.6;
+    }
+
+    /* =========================================
+       PROFILE
+    ========================================= */
+
+    .profile {
+      width: min(100% - 70px, 920px);
+      margin: 0 auto;
+      padding: 30px 0 120px;
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      align-items: center;
+      gap: 70px;
+    }
+
+    .profile-image {
+      height: 420px;
+      position: relative;
+      background:
+        linear-gradient(to top, #090909, transparent 55%),
+        url("https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=900&q=85")
+        center/cover no-repeat;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .profile-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 80px #090909;
+    }
+
+    .profile-copy .eyebrow {
+      margin-bottom: 14px;
+    }
+
+    .profile-copy h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 36px;
+      font-weight: 500;
+      line-height: 1;
+      margin-bottom: 22px;
+    }
+
+    .profile-copy h2 span {
+      color: var(--gold);
+    }
+
+    .profile-copy p {
+      font-size: 10px;
+      line-height: 1.8;
+      color: #aaa;
+      margin-bottom: 18px;
+    }
+
+    .profile-copy .main-btn {
+      min-width: 220px;
+    }
+
+    /* =========================================
+       DIFFERENTIAL
+    ========================================= */
+
+    .differential {
+      padding-bottom: 110px;
+    }
+
+    .differential-card {
+      width: min(100% - 70px, 920px);
+      margin: auto;
+      border-radius: 16px;
+      background: #f0eee9;
+      color: #222;
+      padding: 45px 55px 50px;
+    }
+
+    .differential-card h2 {
+      font-family: "Cormorant Garamond", serif;
+      text-align: center;
+      font-size: 31px;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .differential-card h2 span {
+      color: #bc832f;
+    }
+
+    .differential-intro {
+      max-width: 700px;
+      margin: auto;
+      text-align: center;
+      color: #555;
+      font-size: 9px;
+      line-height: 1.8;
+    }
+
+    .differential-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      margin-top: 45px;
+    }
+
+    .diff-item {
+      text-align: center;
+    }
+
+    .diff-icon {
+      color: var(--gold);
+      font-size: 25px;
+      margin-bottom: 10px;
+    }
+
+    .diff-item h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .diff-item p {
+      font-size: 8px;
+      color: #666;
+      line-height: 1.65;
+    }
+
+    /* =========================================
+       CTA
+    ========================================= */
+
+    .cta {
+      text-align: center;
+      padding: 0 0 120px;
+    }
+
+    .cta h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 31px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .cta p {
+      color: #aaa;
+      font-size: 9px;
+      max-width: 450px;
+      margin: 0 auto 20px;
+      line-height: 1.7;
+    }
+
+    /* =========================================
+       PROCESS
+    ========================================= */
+
+    .process {
+      background: #f5f3ef;
+      color: #222;
+      padding: 90px 0 100px;
+    }
+
+    .process .section-title h2 {
+      color: #222;
+    }
+
+    .process .section-title p {
+      color: #666;
+    }
+
+    .timeline {
+      width: min(100% - 70px, 920px);
+      margin: 45px auto 0;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #222;
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      width: 50%;
+      padding: 15px 35px;
+      position: relative;
+    }
+
+    .timeline-item:nth-child(odd) {
+      margin-left: 0;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(even) {
+      margin-left: 50%;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      top: 28px;
+      width: 10px;
+      height: 10px;
+      background: #f5f3ef;
+      border: 2px solid #222;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-dot {
+      right: -5px;
+    }
+
+    .timeline-item:nth-child(even) .timeline-dot {
+      left: -5px;
+    }
+
+    .timeline-content {
+      background: #242424;
+      color: white;
+      padding: 22px;
+      border-radius: 10px;
+    }
+
+    .timeline-content span {
+      color: var(--gold-light);
+      font-size: 8px;
+    }
+
+    .timeline-content h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 20px;
+      font-weight: 500;
+      margin: 5px 0 8px;
+    }
+
+    .timeline-content p {
+      color: #aaa;
+      font-size: 8px;
+      line-height: 1.6;
+    }
+
+    /* =========================================
+       TESTIMONIALS
+    ========================================= */
+
+    .testimonials {
+      padding: 80px 0 110px;
+      background: #0c0c0c;
+    }
+
+    .testimonials-inner {
+      width: min(100% - 70px, 920px);
+      margin: auto;
+      display: grid;
+      grid-template-columns: .7fr 1.3fr;
+      gap: 45px;
+      align-items: center;
+    }
+
+    .testimonial-heading h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 38px;
+      line-height: .9;
+    }
+
+    .testimonial-heading h2 span {
+      color: var(--gold);
+    }
+
+    .testimonial-heading p {
+      margin-top: 16px;
+      color: #999;
+      font-size: 9px;
+      line-height: 1.7;
+    }
+
+    .testimonial-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .testimonial {
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: #171717;
+      min-height: 150px;
+    }
+
+    .stars {
+      color: var(--gold);
+      letter-spacing: 2px;
+      font-size: 9px;
+      margin-bottom: 14px;
+    }
+
+    .testimonial p {
+      font-size: 9px;
+      line-height: 1.65;
+      color: #bbb;
+    }
+
+    .person {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 16px;
+    }
+
+    .person-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #555;
+    }
+
+    .person small {
+      font-size: 7px;
+      color: #888;
+    }
+
+    /* =========================================
+       BOTTOM CTA
+    ========================================= */
+
+    .bottom-cta {
+      width: min(100% - 70px, 920px);
+      margin: 0 auto;
+      padding: 55px;
+      background: #ded0b8;
+      color: #242424;
+      border-radius: 18px;
+      text-align: center;
+      transform: translateY(65px);
+      position: relative;
+      z-index: 5;
+    }
+
+    .bottom-cta h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 34px;
+      font-weight: 500;
+      margin-bottom: 7px;
+    }
+
+    .bottom-cta p {
+      font-size: 9px;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    /* =========================================
+       FAQ
+    ========================================= */
+
+    .faq {
+      padding: 170px 0 90px;
+      background: #0b0b0b;
+    }
+
+    .faq-inner {
+      width: min(100% - 70px, 920px);
+      margin: auto;
+      display: grid;
+      grid-template-columns: .65fr 1.35fr;
+      gap: 70px;
+    }
+
+    .faq-intro h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 36px;
+      line-height: .95;
+    }
+
+    .faq-intro p {
+      margin-top: 18px;
+      color: #999;
+      font-size: 9px;
+      line-height: 1.7;
+    }
+
+    .faq-button {
+      display: inline-block;
+      margin-top: 20px;
+      background: var(--gold);
+      color: #111;
+      padding: 13px 25px;
+      font-size: 8px;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .faq-item {
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 12px 18px;
+      background: transparent;
+      color: #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+      font-size: 8px;
+    }
+
+    .faq-question span:last-child {
+      color: var(--gold);
+      font-size: 13px;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease;
+    }
+
+    .faq-answer p {
+      padding: 0 18px 15px;
+      color: #888;
+      font-size: 8px;
+      line-height: 1.6;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 120px;
+    }
+
+    /* =========================================
+       FOOTER
+    ========================================= */
+
+    footer {
+      background: #151515;
+      border-top: 1px solid rgba(255,255,255,.04);
+      padding: 60px 0 30px;
+    }
+
+    .footer-inner {
+      width: min(100% - 70px, 920px);
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand {
+      font-family: "Cormorant Garamond", serif;
+      color: var(--gold);
+      font-size: 38px;
+    }
+
+    .footer-brand small {
+      display: block;
+      color: #aaa;
+      font-family: "Inter", sans-serif;
+      font-size: 7px;
+      letter-spacing: .25em;
+    }
+
+    .footer-col h4 {
+      font-family: "Cormorant Garamond", serif;
+      color: var(--gold);
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .footer-col a {
+      display: block;
+      color: #999;
+      font-size: 8px;
+      margin-bottom: 8px;
+      transition: .2s ease;
+    }
+
+    .footer-col a:hover {
+      color: white;
+    }
+
+    .copyright {
+      width: min(100% - 70px, 920px);
+      margin: 50px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      color: #555;
+      font-size: 7px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* =========================================
+       GSAP REVEAL STATES
+    ========================================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(45px);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+
+    @media (max-width: 800px) {
+
+      .nav {
+        height: 62px;
+      }
+
+      .nav-inner {
+        width: calc(100% - 30px);
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .socials {
+        display: none;
+      }
+
+      .nav-cta {
+        padding: 9px 13px;
+      }
+
+      .hero-content {
+        width: calc(100% - 40px);
+      }
+
+      .hero {
+        min-height: 760px;
+        background-position: 65% center;
+      }
+
+      .hero-copy {
+        width: 85%;
+      }
+
+      .about-area {
+        margin-top: -50px;
+      }
+
+      .about-card {
+        width: calc(100% - 30px);
+        grid-template-columns: 1fr;
+        padding: 35px 25px;
+      }
+
+      .about-text {
+        padding-right: 0;
+      }
+
+      .about-visual {
+        height: 170px;
+      }
+
+      .services-grid {
+        width: calc(100% - 30px);
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .profile {
+        width: calc(100% - 30px);
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .profile-image {
+        height: 370px;
+      }
+
+      .differential-card {
+        width: calc(100% - 30px);
+        padding: 35px 20px;
+      }
+
+      .differential-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+      }
+
+      .timeline {
+        width: calc(100% - 30px);
+      }
+
+      .timeline::before {
+        left: 12px;
+      }
+
+      .timeline-item,
+      .timeline-item:nth-child(even),
+      .timeline-item:nth-child(odd) {
+        width: 100%;
+        margin-left: 0;
+        padding: 15px 0 15px 40px;
+        text-align: left;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-dot,
+      .timeline-item:nth-child(even) .timeline-dot {
+        left: 7px;
+        right: auto;
+      }
+
+      .testimonials-inner {
+        width: calc(100% - 30px);
+        grid-template-columns: 1fr;
+      }
+
+      .testimonial-list {
+        grid-template-columns: 1fr;
+      }
+
+      .bottom-cta {
+        width: calc(100% - 30px);
+        padding: 40px 20px;
+      }
+
+      .faq-inner {
+        width: calc(100% - 30px);
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .footer-inner {
+        width: calc(100% - 30px);
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      .copyright {
+        width: calc(100% - 30px);
+      }
+    }
+
+    @media (max-width: 480px) {
+
+      .hero h1 {
+        font-size: 43px;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .service-card {
+        min-height: 170px;
+      }
+
+      .differential-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .copyright {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+
+      .reveal,
+      .reveal-left,
+      .reveal-right {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================
+       PRELOADER
+  ========================================= -->
+
+  <div class="preloader">
+    <div class="preloader-inner">
+      <div class="preloader-logo">
+        <span>ADVOCACIA</span>
+      </div>
+
+      <div class="preloader-line">
+        <span></span>
+      </div>
+
+      <div class="preloader-number">0%</div>
+    </div>
+  </div>
+
+
+  <!-- =========================================
+       NAV
+  ========================================= -->
+
+  <header class="nav">
+    <div class="nav-inner">
+
+      <a href="#" class="brand">
+        AR
+        <small>ADVOCACIA</small>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#inicio" class="active">Início</a>
+        <a href="#servicos">Áreas de atuação</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato">Contato</a>
+      </nav>
+
+      <div style="display:flex;align-items:center;">
+        <a href="#contato" class="nav-cta">Agendar<br>Consulta</a>
+
+        <div class="socials">
+          <a href="#" class="social">◎</a>
+          <a href="#" class="social">◉</a>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- =========================================
+         HERO
+    ========================================= -->
+
+    <section class="hero" id="inicio">
+
+      <div class="hero-content">
+
+        <div class="hero-copy">
+
+          <div class="eyebrow hero-animate">
+            Direito & Previdência
+          </div>
+
+          <h1 class="hero-animate">
+            Restaurando Direitos e Esperanças com
+            <span>Expertise</span> em Direito Previdenciário.
+          </h1>
+
+          <p class="hero-animate">
+            Especialistas em Direito Previdenciário, atuamos com dedicação e
+            técnica para garantir seus direitos. Uma abordagem estratégica,
+            transparente e personalizada para cada caso.
+          </p>
+
+          <a href="#contato" class="main-btn hero-animate">
+            Agendar Consulta ↗
+          </a>
+
+          <div class="hero-note hero-animate">
+            Atendimento online e presencial
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="hero-scroll">
+        SCROLL ↓
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         ABOUT
+    ========================================= -->
+
+    <section class="about-area" id="sobre">
+
+      <div class="about-card reveal">
+
+        <div class="about-text">
+
+          <h2>
+            Quando a Incerteza Encontra o
+            <span>Direito</span>
+          </h2>
+
+          <p>
+            Buscar seus direitos previdenciários pode ser uma jornada
+            complexa. A demora, as dúvidas e a necessidade de entender
+            documentos e processos tornam cada etapa mais difícil.
+          </p>
+
+          <br>
+
+          <p>
+            Nosso escritório oferece uma abordagem estratégica, humana e
+            personalizada para transformar insegurança em clareza e
+            planejamento.
+          </p>
+
+        </div>
+
+        <div class="about-visual">
+          <div class="scales">⚖</div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SERVICES
+    ========================================= -->
+
+    <section class="services" id="servicos">
+
+      <div class="section-title reveal">
+        <h2>
+          Como podemos <span>ajudar você?</span>
+        </h2>
+
+        <p>
+          Nossa expertise está concentrada nas principais necessidades
+        </p>
+      </div>
+
+      <div class="services-grid">
+
+        <article class="service-card reveal">
+          <div class="icon">♜</div>
+          <h3>Aposentadorias</h3>
+          <p>
+            Analisamos seu processo de aposentadoria, identificando
+            possibilidades e estratégias.
+          </p>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="icon">⌁</div>
+          <h3>Planejamento Previdenciário</h3>
+          <p>
+            Estruturamos estratégias para você alcançar o melhor cenário
+            previdenciário.
+          </p>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="icon">✦</div>
+          <h3>Revisões de Benefícios</h3>
+          <p>
+            Analisamos seu benefício atual para identificar possíveis
+            oportunidades.
+          </p>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="icon">＋</div>
+          <h3>Outros Benefícios</h3>
+          <p>
+            Atuamos em diferentes situações previdenciárias conforme cada
+            necessidade.
+          </p>
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         PROFILE
+    ========================================= -->
+
+    <section class="profile">
+
+      <div class="profile-image reveal-left"></div>
+
+      <div class="profile-copy reveal-right">
+
+        <div class="eyebrow">
+          Conheça nosso trabalho
+        </div>
+
+        <h2>
+          Quem está por trás da
+          <span>advocacia?</span>
+        </h2>
+
+        <p>
+          Com anos de dedicação e experiência no Direito Previdenciário,
+          nosso trabalho é construído com responsabilidade, estratégia e
+          atendimento próximo.
+        </p>
+
+        <p>
+          Acreditamos que cada pessoa possui uma história diferente e
+          merece uma estratégia jurídica construída especificamente para
+          sua realidade.
+        </p>
+
+        <a href="#contato" class="main-btn">
+          Conheça mais sobre o escritório
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         DIFFERENTIAL
+    ========================================= -->
+
+    <section class="differential">
+
+      <div class="differential-card reveal">
+
+        <h2>
+          Por que escolher nossa
+          <span>advocacia?</span>
+        </h2>
+
+        <p class="differential-intro">
+          Com dedicação exclusiva ao Direito Previdenciário, nosso escritório
+          combina conhecimento técnico, experiência prática e atendimento
+          personalizado.
+        </p>
+
+        <div class="differential-grid">
+
+          <div class="diff-item">
+            <div class="diff-icon">⚖</div>
+            <h3>Especialização em Direito Previdenciário</h3>
+            <p>
+              Mais de uma década dedicada exclusivamente à área.
+            </p>
+          </div>
+
+          <div class="diff-item">
+            <div class="diff-icon">♙</div>
+            <h3>Atendimento Personalizado</h3>
+            <p>
+              Cada caso é tratado de maneira individual.
+            </p>
+          </div>
+
+          <div class="diff-item">
+            <div class="diff-icon">●</div>
+            <h3>Comunicação Clara e Acessível</h3>
+            <p>
+              Mantemos você informado durante todas as etapas.
+            </p>
+          </div>
+
+          <div class="diff-item">
+            <div class="diff-icon">⚙</div>
+            <h3>Resultados Transformadores</h3>
+            <p>
+              Estratégias pensadas para cada realidade.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         CTA
+    ========================================= -->
+
+    <section class="cta" id="contato">
+
+      <h2 class="reveal">
+        Cada Dia Sem Ação é Um Direito Perdido!
+      </h2>
+
+      <p class="reveal">
+        Não espere mais para garantir o que é seu por direito.
+        Nossa equipe está pronta para transformar sua luta em conquista.
+      </p>
+
+      <a href="#" class="main-btn reveal">
+        Agendar Consulta ↗
+      </a>
+
+    </section>
+
+
+    <!-- =========================================
+         PROCESS
+    ========================================= -->
+
+    <section class="process">
+
+      <div class="section-title reveal">
+        <h2>
+          Processo <span>Simples e Descomplicado</span>
+        </h2>
+
+        <p>
+          Como funciona nosso atendimento
+        </p>
+      </div>
+
+      <div class="timeline">
+
+        <div class="timeline-item reveal-left">
+
+          <span class="timeline-dot"></span>
+
+          <div class="timeline-content">
+            <span>01</span>
+            <h3>Consulta Inicial</h3>
+            <p>
+              Entendemos sua situação e analisamos todos os detalhes
+              necessários para orientar os próximos passos.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="timeline-item reveal-right">
+
+          <span class="timeline-dot"></span>
+
+          <div class="timeline-content">
+            <span>02</span>
+            <h3>Análise Jurídica</h3>
+            <p>
+              Avaliamos documentos, histórico e possibilidades jurídicas
+              para definir a estratégia.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="timeline-item reveal-left">
+
+          <span class="timeline-dot"></span>
+
+          <div class="timeline-content">
+            <span>03</span>
+            <h3>Ação Jurídica</h3>
+            <p>
+              Colocamos a estratégia em prática, acompanhando cada etapa
+              necessária.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="timeline-item reveal-right">
+
+          <span class="timeline-dot"></span>
+
+          <div class="timeline-content">
+            <span>04</span>
+            <h3>Acompanhamento e Solução</h3>
+            <p>
+              Acompanhamos todo o processo e mantemos você informado
+              sobre cada evolução.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         TESTIMONIALS
+    ========================================= -->
+
+    <section class="testimonials">
+
+      <div class="testimonials-inner">
+
+        <div class="testimonial-heading reveal-left">
+
+          <h2>
+            Histórias que
+            <span>Transformamos</span>
+          </h2>
+
+          <p>
+            Confira alguns depoimentos de pessoas que encontraram
+            orientação e segurança.
+          </p>
+
+        </div>
+
+        <div class="testimonial-list">
+
+          <article class="testimonial reveal-right">
+
+            <div class="stars">
+              ★★★★★
+            </div>
+
+            <p>
+              "Atendimento excelente, profissional e muito atencioso.
+              Toda a equipe foi muito cuidadosa durante o processo."
+            </p>
+
+            <div class="person">
+              <div class="person-avatar"></div>
+              <small>Cliente verificado</small>
+            </div>
+
+          </article>
+
+          <article class="testimonial reveal-right">
+
+            <div class="stars">
+              ★★★★★
+            </div>
+
+            <p>
+              "Fui muito bem orientado durante todo o atendimento.
+              Recomendo pela atenção e clareza."
+            </p>
+
+            <div class="person">
+              <div class="person-avatar"></div>
+              <small>Cliente verificado</small>
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         BOTTOM CTA
+    ========================================= -->
+
+    <div class="bottom-cta reveal">
+
+      <h2>
+        Pronto para Começar?
+      </h2>
+
+      <p>
+        Agende sua consulta e descubra como podemos ajudar.
+      </p>
+
+      <a href="#contato" class="main-btn">
+        Agendar Consulta ↗
+      </a>
+
+    </div>
+
+
+    <!-- =========================================
+         FAQ
+    ========================================= -->
+
+    <section class="faq">
+
+      <div class="faq-inner">
+
+        <div class="faq-intro reveal-left">
+
+          <h2>
+            Tire suas
+            <span style="color:var(--gold);">dúvidas.</span>
+          </h2>
+
+          <p>
+            Encontre respostas para as perguntas mais comuns
+            ou entre em contato com nossa equipe.
+          </p>
+
+          <a href="#contato" class="faq-button">
+            FALE CONOSCO
+          </a>
+
+        </div>
+
+        <div class="faq-list">
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Em quanto tempo vou receber meu benefício?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                O prazo depende de cada situação e do procedimento necessário.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>É possível revisar um benefício já concedido?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Em determinadas situações, pode existir possibilidade de revisão.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Quais documentos são necessários?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                A documentação varia de acordo com o serviço e o caso analisado.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Como funciona meu primeiro atendimento?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Primeiro entendemos sua situação e avaliamos os documentos
+                disponíveis para orientar os próximos passos.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>O que acontece se meu benefício for negado?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Analisamos a decisão e verificamos quais medidas jurídicas
+                podem ser tomadas.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Meu benefício foi calculado errado. O que fazer?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Uma análise detalhada pode identificar possíveis erros
+                no cálculo ou concessão.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================================
+       FOOTER
+  ========================================= -->
+
+  <footer>
+
+    <div class="footer-inner">
+
+      <div>
+        <div class="footer-brand">
+          AR
+          <small>ADVOCACIA</small>
+        </div>
+      </div>
+
+      <div class="footer-col">
+
+        <h4>Áreas de atuação</h4>
+
+        <a href="#">Aposentadorias</a>
+        <a href="#">Planejamento Previdenciário</a>
+        <a href="#">Revisão de Benefícios</a>
+        <a href="#">BPC/LOAS</a>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>Institucional</h4>
+
+        <a href="#sobre">Quem somos</a>
+        <a href="#contato">Contato</a>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>Mídias sociais</h4>
+
+        <a href="#">Instagram</a>
+        <a href="#">WhatsApp</a>
+
+      </div>
+
+    </div>
+
+    <div class="copyright">
+
+      <span>© 2026 — Todos os direitos reservados.</span>
+
+      <span>Advocacia & Direito Previdenciário</span>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================================
+       JAVASCRIPT / GSAP
+  ========================================= -->
+
+  <script>
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const reduceMotion =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+
+    /* =========================================
+       PRELOADER
+    ========================================= */
+
+    function startPreloader() {
+
+      const loader = document.querySelector(".preloader");
+      const logo = document.querySelector(".preloader-logo span");
+      const line = document.querySelector(".preloader-line span");
+      const number = document.querySelector(".preloader-number");
+
+      if (reduceMotion) {
+        loader.style.display = "none";
+        return;
+      }
+
+      const counter = { value: 0 };
+
+      const tl = gsap.timeline();
+
+      tl.to(logo, {
+        y: "0%",
+        duration: 1.1,
+        ease: "power4.out"
+      });
+
+      tl.to(counter, {
+        value: 100,
+        duration: 1.8,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          number.textContent =
+            Math.round(counter.value) + "%";
+        }
+      }, "-=.5");
+
+      tl.to(line, {
+        width: "100%",
+        duration: 1.8,
+        ease: "power2.inOut"
+      }, "<");
+
+      tl.to(loader, {
+        yPercent: -100,
+        duration: 1.15,
+        ease: "power4.inOut",
+        onComplete: () => {
+          loader.style.display = "none";
+          initAnimations();
+        }
+      });
+
+    }
+
+
+    /* =========================================
+       MAIN ANIMATIONS
+    ========================================= */
+
+    function initAnimations() {
+
+      if (reduceMotion) {
+        gsap.set(
+          ".reveal,.reveal-left,.reveal-right",
+          {
+            opacity: 1,
+            x: 0,
+            y: 0
+          }
+        );
+        return;
+      }
+
+
+      /* HERO */
+
+      gsap.from(".hero-animate", {
+        opacity: 0,
+        y: 35,
+        duration: 1,
+        stagger: .13,
+        ease: "power3.out",
+        delay: .15
+      });
+
+
+      /* GENERAL REVEALS */
+
+      gsap.utils.toArray(".reveal").forEach((element) => {
+
+        gsap.to(element, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 82%",
+            once: true
+          }
+        });
+
+      });
+
+
+      /* LEFT */
+
+      gsap.utils.toArray(".reveal-left").forEach((element) => {
+
+        gsap.to(element, {
+          opacity: 1,
+          x: 0,
+          duration: 1.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 82%",
+            once: true
+          }
+        });
+
+      });
+
+
+      /* RIGHT */
+
+      gsap.utils.toArray(".reveal-right").forEach((element) => {
+
+        gsap.to(element, {
+          opacity: 1,
+          x: 0,
+          duration: 1.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 82%",
+            once: true
+          }
+        });
+
+      });
+
+
+      /* HERO PARALLAX */
+
+      gsap.to(".hero", {
+        backgroundPosition: "50% 65%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".hero",
+          start: "top top",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+
+
+      /* ABOUT CARD */
+
+      gsap.from(".about-card", {
+        y: 100,
+        scale: .94,
+        scrollTrigger: {
+          trigger: ".about-area",
+          start: "top 90%",
+          end: "top 40%",
+          scrub: 1
+        }
+      });
+
+
+      /* SERVICES */
+
+      gsap.from(".service-card", {
+        y: 60,
+        opacity: 0,
+        stagger: .1,
+        duration: .8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".services-grid",
+          start: "top 78%",
+          once: true
+        }
+      });
+
+
+      /* PROFILE IMAGE */
+
+      gsap.to(".profile-image", {
+        backgroundPosition: "center 65%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".profile",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+
+
+      /* DIFFERENTIAL CARD */
+
+      gsap.from(".differential-card", {
+        scale: .92,
+        opacity: 0,
+        y: 80,
+        duration: 1.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".differential",
+          start: "top 75%",
+          once: true
+        }
+      });
+
+
+      /* TIMELINE */
+
+      gsap.from(".timeline::before", {
+        scaleY: 0,
+        transformOrigin: "top",
+        scrollTrigger: {
+          trigger: ".timeline",
+          start: "top 70%",
+          end: "bottom 70%",
+          scrub: true
+        }
+      });
+
+
+      /* BOTTOM CTA */
+
+      gsap.to(".bottom-cta", {
+        y: 0,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".bottom-cta",
+          start: "top 85%",
+          end: "top 60%",
+          scrub: 1
+        }
+      });
+
+    }
+
+
+    /* =========================================
+       FAQ
+    ========================================= */
+
+    document.querySelectorAll(".faq-question").forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        const item = button.parentElement;
+
+        document.querySelectorAll(".faq-item").forEach(other => {
+
+          if (other !== item) {
+            other.classList.remove("open");
+
+            const icon =
+              other.querySelector(".faq-question span:last-child");
+
+            if (icon) icon.textContent = "+";
+          }
+
+        });
+
+        item.classList.toggle("open");
+
+        const icon =
+          button.querySelector("span:last-child");
+
+        icon.textContent =
+          item.classList.contains("open") ? "−" : "+";
+
+      });
+
+    });
+
+
+    /* =========================================
+       NAV ACTIVE
+    ========================================= */
+
+    const sections =
+      document.querySelectorAll("section[id]");
+
+    const navLinks =
+      document.querySelectorAll(".nav-links a");
+
+    window.addEventListener("scroll", () => {
+
+      let current = "";
+
+      sections.forEach(section => {
+
+        const sectionTop =
+          section.offsetTop - 150;
+
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute("id");
+        }
+
+      });
+
+      navLinks.forEach(link => {
+
+        link.classList.remove("active");
+
+        if (
+          link.getAttribute("href") === "#" + current
+        ) {
+          link.classList.add("active");
+        }
+
+      });
+
+    });
+
+
+    /* =========================================
+       SMOOTH ANCHORS
+    ========================================= */
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+
+      anchor.addEventListener("click", function(e) {
+
+        const target =
+          document.querySelector(this.getAttribute("href"));
+
+        if (!target) return;
+
+        e.preventDefault();
+
+        target.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth"
+        });
+
+      });
+
+    });
+
+
+    /* =========================================
+       START
+    ========================================= */
+
+    window.addEventListener("load", startPreloader);
+
+  </script>
+
+</body>
+</html>
