@@ -1373,7 +1373,7 @@
 
       <div class="services-grid">
 
-        <article class="service-card reveal">
+        <article class="service-card">
           <div class="icon">♜</div>
           <h3>Aposentadorias</h3>
           <p>
@@ -1382,7 +1382,7 @@
           </p>
         </article>
 
-        <article class="service-card reveal">
+        <article class="service-card">
           <div class="icon">⌁</div>
           <h3>Planejamento Previdenciário</h3>
           <p>
@@ -1391,7 +1391,7 @@
           </p>
         </article>
 
-        <article class="service-card reveal">
+        <article class="service-card">
           <div class="icon">✦</div>
           <h3>Revisões de Benefícios</h3>
           <p>
@@ -1400,7 +1400,7 @@
           </p>
         </article>
 
-        <article class="service-card reveal">
+        <article class="service-card">
           <div class="icon">＋</div>
           <h3>Outros Benefícios</h3>
           <p>
@@ -2055,22 +2055,6 @@
           start: "top 90%",
           end: "top 40%",
           scrub: 1
-        }
-      });
-
-
-      /* SERVICES */
-
-      gsap.from(".service-card", {
-        y: 60,
-        opacity: 0,
-        stagger: .1,
-        duration: .8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".services-grid",
-          start: "top 78%",
-          once: true
         }
       });
 
